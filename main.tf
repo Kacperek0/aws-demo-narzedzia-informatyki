@@ -1,14 +1,13 @@
 
 # Konfiguracja "dostawcy" chmury
 provider "aws" {
-  region = var.region
+  region = "eu-central-1"
   profile = "default"
 }
 
 # Tworzenie sieci wirtualnej
 resource "aws_vpc" "VPC" {
   cidr_block       = "10.10.0.0/16"
-  instance_tenancy = "dedicated"
 
   tags = {
     Name = "${var.tag_prefix}-VPC"
@@ -19,6 +18,7 @@ resource "aws_vpc" "VPC" {
 resource "aws_subnet" "subnet" {
   vpc_id     = aws_vpc.VPC.id
   cidr_block = "10.10.0.0/24"
+  depends_on = [aws_internet_gateway.gateway]
 
   tags = {
     Name = "${var.tag_prefix}-subnet"
@@ -46,13 +46,24 @@ resource "aws_network_interface" "nic" {
   tags = {
     Name = "${var.tag_prefix}-nic"
   }
-
 }
+
+# resource "aws_nat_gateway" "gw" {
+#   allocation_id = "default"
+#   subnet_id     = aws_subnet.subnet.id
+
+#   tags = {
+#     Name = "gw NAT"
+#   }
+# }
+
+
 # Instancja EC2
 resource "aws_instance" "EC2_1" {
   ami           = var.ubuntu_server
   instance_type = var.instance_type
   subnet_id = aws_subnet.subnet.id
+  key_name = "kacper_ubuntuserver"
 
   tags = {
     Name = "${var.tag_prefix}-VM"

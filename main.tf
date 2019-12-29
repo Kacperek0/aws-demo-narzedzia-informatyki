@@ -27,7 +27,7 @@ resource "aws_subnet" "subnet" {
 
 # Internet gateway
 resource "aws_internet_gateway" "gateway" {
-  vpc_id = "${aws_vpc.VPC.id}"
+  vpc_id = aws_vpc.VPC.id
 
   tags = {
     Name = "${var.tag_prefix}-gateway"
@@ -36,17 +36,23 @@ resource "aws_internet_gateway" "gateway" {
 
 # Network interface
 resource "aws_network_interface" "nic" {
-  subnet_id   = "${aws_subnet.subnet.id}"
+  subnet_id   = aws_subnet.subnet.id
+
+  attachment {
+    instance     = aws_instance.EC2_1.id
+    device_index = 1
+  }
 
   tags = {
     Name = "${var.tag_prefix}-nic"
   }
 
+}
 # Instancja EC2
 resource "aws_instance" "EC2_1" {
   ami           = var.ami_WindowsServer2019
   instance_type = var.instance_type
-  subnet_id = aws_subnet.VPC.id
+  subnet_id = aws_subnet.subnet.id
 
   tags = {
     Name = "${var.tag_prefix}-VM"

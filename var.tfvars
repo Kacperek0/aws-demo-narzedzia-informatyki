@@ -1,4 +1,4 @@
 region = "eu-central-1"
 instance_type = "t2.micro"
-ami_WindowsServer2019 = "ami-02af6e0ccf9c16556"
+ubuntu_server = "ami-0cc0a36f626a4fdf5"
 tag_prefix = "narzedziaInformatyki"

@@ -2,8 +2,8 @@ variable "region" {
   description = "Region np. Centralna Europa"
 }
 
-variable "ami_WindowsServer2019" {
-  description = "AMI Windows Server 2019 w EU-Central-1"
+variable "ubuntu_server" {
+  description = "AMI Ubuntu Server w EU-Central-1"
 }
 
 variable "instance_type" {

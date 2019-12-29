@@ -50,7 +50,7 @@ resource "aws_network_interface" "nic" {
 }
 # Instancja EC2
 resource "aws_instance" "EC2_1" {
-  ami           = var.ami_WindowsServer2019
+  ami           = var.ubuntu_server
   instance_type = var.instance_type
   subnet_id = aws_subnet.subnet.id
 

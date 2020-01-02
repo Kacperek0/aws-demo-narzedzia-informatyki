@@ -48,19 +48,32 @@ resource "aws_network_interface" "nic" {
   }
 }
 
+# elastic IP
+resource "aws_eip" "eip" {
+  vpc = true
+
+  instance                  = aws_instance.EC2_1.id
+  depends_on                = [aws_internet_gateway.gateway]
+
+  tags = {
+    Name = "${var.tag_prefix}-eip"
+  }
+}
+
+# NAT Gateway
 # resource "aws_nat_gateway" "gw" {
 #   allocation_id = "default"
 #   subnet_id     = aws_subnet.subnet.id
 
 #   tags = {
-#     Name = "gw NAT"
+#     Name = "${var.tag_prefix}-NAT"
 #   }
 # }
 
 
 # Instancja EC2
 resource "aws_instance" "EC2_1" {
-  ami           = var.ubuntu_server
+  ami           = var.windows_server
   instance_type = var.instance_type
   subnet_id = aws_subnet.subnet.id
   key_name = "kacper_ubuntuserver"

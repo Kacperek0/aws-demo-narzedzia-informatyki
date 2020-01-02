@@ -6,6 +6,10 @@ variable "ubuntu_server" {
   description = "AMI Ubuntu Server w EU-Central-1"
 }
 
+variable "windows_server" {
+  description = "AMU Windows Server 2019 w EU-Central-1"
+}
+
 variable "instance_type" {
   description = "Typ instancji. T2.micro jest darmowa."
 }

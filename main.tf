@@ -60,17 +60,6 @@ resource "aws_eip" "eip" {
   }
 }
 
-# NAT Gateway
-# resource "aws_nat_gateway" "gw" {
-#   allocation_id = "default"
-#   subnet_id     = aws_subnet.subnet.id
-
-#   tags = {
-#     Name = "${var.tag_prefix}-NAT"
-#   }
-# }
-
-
 # Instancja EC2
 resource "aws_instance" "EC2_1" {
   ami           = var.windows_server

@@ -60,12 +60,39 @@ resource "aws_eip" "eip" {
   }
 }
 
+# Security grupa
+
+resource "aws_security_group" "allow_rds" {
+  name        = "${var.tag_prefix}-allow_rds"
+  description = "Allow rds traffic"
+  vpc_id      = aws_vpc.VPC.id
+
+  tags = {
+    Name = "${var.tag_prefix}-nsg"
+  }
+}
+
+# SG rule
+
+resource "aws_security_group_rule" "rds" {
+  type            = "ingress"
+  from_port       = 0
+  to_port         = 65535
+  protocol        = "tcp"
+  cidr_blocks     = ["0.0.0.0/0"]
+  #Otwieranie całego pasma oraz wszystkich portów nie jest dobrym rozwiązaniem, jednak ten plik jest czysto pokazowy.
+
+  security_group_id = aws_security_group.allow_rds.id
+}
+
+
 # Instancja EC2
 resource "aws_instance" "EC2_1" {
   ami           = var.windows_server
   instance_type = var.instance_type
   subnet_id = aws_subnet.subnet.id
   key_name = "kacper_ubuntuserver"
+  vpc_security_group_ids = [aws_security_group.allow_rds.id]
 
   tags = {
     Name = "${var.tag_prefix}-VM"

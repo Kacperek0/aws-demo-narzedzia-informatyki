@@ -2,3 +2,4 @@
 *.tfstate.backup
 .terraform
 kacper_ubuntuserver.pem
+tfplan

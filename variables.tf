@@ -2,8 +2,8 @@ variable "region" {
   description = "Region np. Centralna Europa"
 }
 
-variable "ubuntu_server" {
-  description = "AMI Ubuntu Server w EU-Central-1"
+variable "keys" {
+  description = "Nazwa klucza do wygenerowania hasła"
 }
 
 variable "windows_server" {
@@ -17,3 +17,4 @@ variable "instance_type" {
 variable "tag_prefix" {
   description = "Prefiks tagów"
 }
+

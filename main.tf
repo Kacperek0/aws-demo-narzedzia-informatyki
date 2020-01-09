@@ -85,6 +85,20 @@ resource "aws_security_group_rule" "rds" {
   security_group_id = aws_security_group.allow_rds.id
 }
 
+# Tabela Routingu
+
+resource "aws_route_table" "r" {
+  vpc_id = aws_vpc.VPC.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gateway.id
+  }
+
+  tags = {
+    Name = "${var.tag_prefix}-main"
+  }
+}
 
 # Instancja EC2
 resource "aws_instance" "EC2_1" {
